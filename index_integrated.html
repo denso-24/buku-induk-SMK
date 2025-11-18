@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Buku Induk Peserta Didik SMK</title>
+    <!-- 1. Muat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 2. Muat Font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 3. Gaya Tambahan & Gaya Cetak -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Sembunyikan elemen yang tidak perlu saat mencetak */
+        @media print {
+            body {
+                font-family: 'Times New Roman', Times, serif;
+            }
+            .no-print {
+                display: none;
+            }
+            details {
+                page-break-inside: avoid;
+            }
+            /* Buka semua detail saat mencetak */
+            details[open] summary {
+                display: block;
+            }
+            details summary {
+                display: block; /* Pastikan judul bagian tetap terlihat */
+            }
+            /* Hapus panah dropdown */
+            details > summary::marker {
+                display: none;
+            }
+            details > summary {
+                list-style: none;
+            }
+            /* Hapus border dan shadow dari input agar terlihat seperti teks biasa */
+            input, textarea, select {
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                width: 100%;
+                padding: 4px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid #000;
+                padding: 4px;
+                text-align: left;
+            }
+            img {
+                max-width: 100px !important;
+            }
+            /* Hindari tabel terpotong antar halaman */
+            table, tr, td, th, tbody, thead, tfoot {
+                page-break-inside: avoid !important;
+            }
+        }
+
+        /* Gaya input dalam tabel */
+        .table-input {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .table-input:focus {
+            outline: 1px solid #4f46e5;
+        }
+
+        /* Gaya untuk ringkasan/judul bagian */
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.25rem; /* text-xl */
+            padding: 1rem;
+            background-color: #f9fafb; /* gray-50 */
+            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+            border-radius: 8px 8px 0 0;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+        }
+        details {
+            border: 1px solid #e5e7eb; /* gray-200 */
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background-color: white;
+        }
+        .section-content {
+            padding: 1.5rem; /* p-6 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Header -->
+        <header class="p-6 bg-indigo-600 text-white no-print">
+            <h1 class="text-2xl font-bold">Formulir Buku Induk Peserta Didik SMK</h1>
+            <p class="text-indigo-200">Isi data di bawah ini. Gunakan tombol "Cetak / Simpan ke PDF" untuk menyimpan.</p>
+        </header>
+
+        <!-- Tombol Cetak -->
+        <div class="p-4 text-right bg-white border-b no-print">
+            <button onclick="window.print()" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-indigo-700 transition duration-300">
+                Cetak / Simpan ke PDF
+            </button>
+        </div>
+
+        <form id="bukuIndukForm" class="p-4 md:p-8 space-y-6">
+
+            <!-- BAGIAN A: IDENTITAS SEKOLAH -->
+            <details open>
+                <summary>BAGIAN A: IDENTITAS SEKOLAH</summary>
+                <div class="section-content grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="nama_sekolah" class="block text-sm font-medium text-gray-700">1. Nama Sekolah</label>
+                        <input type="text" id="nama_sekolah" name="nama_sekolah" placeholder="Contoh: SMK Teknologi Bangsa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="npsn" class="block text-sm font-medium text-gray-700">2. NPSN</label>
+                        <input type="text" id="npsn" name="npsn" placeholder="Nomor Pokok Sekolah Nasional" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="status_sekolah" class="block text-sm font-medium text-gray-700">3. Status Sekolah</label>
+                        <select id="status_sekolah" name="status_sekolah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option>Negeri</option>
+                            <option>Swasta</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="alamat_sekolah" class="block text-sm font-medium text-gray-700">4. Alamat Lengkap Sekolah</label>
+                        <input type="text" id="alamat_sekolah" name="alamat_sekolah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="desa_sekolah" class="block text-sm font-medium text-gray-700">5. Desa/Kelurahan</label>
+                        <input type="text" id="desa_sekolah" name="desa_sekolah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="kecamatan_sekolah" class="block text-sm font-medium text-gray-700">6. Kecamatan</label>
+                        <input type="text" id="kecamatan_sekolah" name="kecamatan_sekolah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="kota_sekolah" class="block text-sm font-medium text-gray-700">7. Kabupaten/Kota</label>
+                        <input type="text" id="kota_sekolah" name="kota_sekolah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="provinsi_sekolah" class="block text-sm font-medium text-gray-700">8. Provinsi</label>
+                        <input type="text" id="provinsi_sekolah" name="provinsi_sekolah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="telp_email_sekolah" class="block text-sm font-medium text-gray-700">9. No. Telepon & Email</label>
+                        <input type="text" id="telp_email_sekolah" name="telp_email_sekolah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                </div>
+            </details>
+
+            <!-- BAGIAN B: IDENTITAS PESERTA DIDIK -->
+            <details open>
+                <summary>BAGIAN B: IDENTITAS PESERTA DIDIK</summary>
+                <div class="section-content space-y-6">
+                    <!-- Foto & NIS/NISN -->
+                    <div class="flex flex-col md:flex-row items-start gap-6">
+                        <div class="w-32 h-40 bg-gray-200 border border-gray-300 rounded-md flex items-center justify-center text-center text-gray-500 p-2">
+                            [Tempat Foto Siswa 3x4]
+                            <input type="file" id="foto_siswa" name="foto_siswa" class="no-print mt-2 w-full text-xs" accept="image/*">
+                        </div>
+                        <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="nis" class="block text-sm font-medium text-gray-700">Nomor Induk Siswa (NIS)</label>
+                                <input type="text" id="nis" name="nis" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="nisn" class="block text-sm font-medium text-gray-700">Nomor Induk Siswa Nasional (NISN)</label>
+                                <input type="text" id="nisn" name="nisn" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Detail Siswa -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
+                        <div>
+                            <label for="nama_siswa" class="block text-sm font-medium text-gray-700">1. Nama Lengkap Peserta Didik</label>
+                            <input type="text" id="nama_siswa" name="nama_siswa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="program_keahlian" class="block text-sm font-medium text-gray-700">2. Program Keahlian</label>
+                            <input type="text" id="program_keahlian" name="program_keahlian" placeholder="Contoh: Teknik Komputer dan Jaringan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="kompetensi_keahlian" class="block text-sm font-medium text-gray-700">3. Kompetensi Keahlian</label>
+                            <input type="text" id="kompetensi_keahlian" name="kompetensi_keahlian" placeholder="Contoh: Teknik Komputer dan Jaringan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="ttl_siswa" class="block text-sm font-medium text-gray-700">4. Tempat, Tanggal Lahir</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="tempat_lahir_siswa" name="tempat_lahir_siswa" placeholder="Tempat" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <input type="date" id="tgl_lahir_siswa" name="tgl_lahir_siswa" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700">5. Jenis Kelamin</label>
+                            <select id="jenis_kelamin" name="jenis_kelamin" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <option>Laki-laki</option>
+                                <option>Perempuan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="agama_siswa" class="block text-sm font-medium text-gray-700">6. Agama</label>
+                            <select id="agama_siswa" name="agama_siswa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <option>Islam</option>
+                                <option>Kristen Protestan</option>
+                                <option>Kristen Katolik</option>
+                                <option>Hindu</option>
+                                <option>Buddha</option>
+                                <option>Khonghucu</option>
+                                <option>Lainnya</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="kewarganegaraan_siswa" class="block text-sm font-medium text-gray-700">7. Kewarganegaraan</label>
+                            <input type="text" id="kewarganegaraan_siswa" name="kewarganegaraan_siswa" value="Indonesia" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">8. Anak ke-</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="anak_ke" name="anak_ke" placeholder="Anak Ke" class="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <span class="text-gray-500">dari</span>
+                                <input type="number" id="dari_bersaudara" name="dari_bersaudara" placeholder="Jml" class="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <span class="text-gray-500">bersaudara</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="status_keluarga" class="block text-sm font-medium text-gray-700">9. Status dalam Keluarga</label>
+                            <select id="status_keluarga" name="status_keluarga" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <option>Anak Kandung</option>
+                                <option>Anak Tiri</option>
+                                <option>Anak Angkat</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="bahasa_siswa" class="block text-sm font-medium text-gray-700">10. Bahasa Sehari-hari di Rumah</label>
+                            <input type="text" id="bahasa_siswa" name="bahasa_siswa" placeholder="Contoh: Indonesia, Sunda" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="alamat_siswa" class="block text-sm font-medium text-gray-700">11. Alamat Lengkap Peserta Didik</label>
+                            <textarea id="alamat_siswa" name="alamat_siswa" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+                        </div>
+                        <div>
+                            <label for="hp_siswa" class="block text-sm font-medium text-gray-700">12. Nomor Telepon/HP Siswa</label>
+                            <input type="tel" id="hp_siswa" name="hp_siswa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="tinggal_dengan" class="block text-sm font-medium text-gray-700">13. Tinggal Dengan</label>
+                            <select id="tinggal_dengan" name="tinggal_dengan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <option>Orang Tua</option>
+                                <option>Wali</option>
+                                <option>Kost</option>
+                                <option>Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- BAGIAN C: KETERANGAN ORANG TUA / WALI -->
+            <details open>
+                <summary>BAGIAN C: KETERANGAN ORANG TUA / WALI</summary>
+                <div class="section-content space-y-6">
+                    <!-- Data Ayah -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">1. Data Ayah</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="nama_ayah" class="block text-sm font-medium text-gray-700">Nama Ayah</label>
+                                <input type="text" id="nama_ayah" name="nama_ayah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="ttl_ayah" class="block text-sm font-medium text-gray-700">Tempat, Tanggal Lahir</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="tempat_lahir_ayah" name="tempat_lahir_ayah" placeholder="Tempat" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                    <input type="date" id="tgl_lahir_ayah" name="tgl_lahir_ayah" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="pendidikan_ayah" class="block text-sm font-medium text-gray-700">Pendidikan Terakhir</label>
+                                <input type="text" id="pendidikan_ayah" name="pendidikan_ayah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="pekerjaan_ayah" class="block text-sm font-medium text-gray-700">Pekerjaan Utama</label>
+                                <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="penghasilan_ayah" class="block text-sm font-medium text-gray-700">Penghasilan Rata-rata/Bulan</label>
+                                <input type="text" id="penghasilan_ayah" name="penghasilan_ayah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="hp_ayah" class="block text-sm font-medium text-gray-700">No. Telepon/HP</label>
+                                <input type="tel" id="hp_ayah" name="hp_ayah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="alamat_ayah" class="block text-sm font-medium text-gray-700">Alamat</label>
+                                <input type="text" id="alamat_ayah" name="alamat_ayah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Data Ibu -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">2. Data Ibu</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="nama_ibu" class="block text-sm font-medium text-gray-700">Nama Ibu</label>
+                                <input type="text" id="nama_ibu" name="nama_ibu" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="ttl_ibu" class="block text-sm font-medium text-gray-700">Tempat, Tanggal Lahir</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="tempat_lahir_ibu" name="tempat_lahir_ibu" placeholder="Tempat" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                    <input type="date" id="tgl_lahir_ibu" name="tgl_lahir_ibu" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="pendidikan_ibu" class="block text-sm font-medium text-gray-700">Pendidikan Terakhir</label>
+                                <input type="text" id="pendidikan_ibu" name="pendidikan_ibu" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="pekerjaan_ibu" class="block text-sm font-medium text-gray-700">Pekerjaan Utama</label>
+                                <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="penghasilan_ibu" class="block text-sm font-medium text-gray-700">Penghasilan Rata-rata/Bulan</label>
+                                <input type="text" id="penghasilan_ibu" name="penghasilan_ibu" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="hp_ibu" class="block text-sm font-medium text-gray-700">No. Telepon/HP</label>
+                                <input type="tel" id="hp_ibu" name="hp_ibu" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="alamat_ibu" class="block text-sm font-medium text-gray-700">Alamat</label>
+                                <input type="text" id="alamat_ibu" name="alamat_ibu" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Data Wali -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">3. Data Wali (Diisi jika siswa tinggal bersama Wali)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="nama_wali" class="block text-sm font-medium text-gray-700">Nama Wali</label>
+                                <input type="text" id="nama_wali" name="nama_wali" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="hubungan_wali" class="block text-sm font-medium text-gray-700">Hubungan dengan Siswa</label>
+                                <input type="text" id="hubungan_wali" name="hubungan_wali" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="pendidikan_wali" class="block text-sm font-medium text-gray-700">Pendidikan Terakhir</label>
+                                <input type="text" id="pendidikan_wali" name="pendidikan_wali" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="pekerjaan_wali" class="block text-sm font-medium text-gray-700">Pekerjaan Utama</label>
+                                <input type="text" id="pekerjaan_wali" name="pekerjaan_wali" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="hp_wali" class="block text-sm font-medium text-gray-700">No. Telepon/HP</label>
+                                <input type="tel" id="hp_wali" name="hp_wali" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="alamat_wali" class="block text-sm font-medium text-gray-700">Alamat</label>
+                                <input type="text" id="alamat_wali" name="alamat_wali" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+            
+            <!-- BAGIAN D: RIWAYAT PENDIDIKAN SEBELUMNYA -->
+            <details open>
+                <summary>BAGIAN D: RIWAYAT PENDIDIKAN SEBELUMNYA</summary>
+                <div class="section-content grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="asal_sekolah" class="block text-sm font-medium text-gray-700">1. Asal Sekolah</label>
+                        <input type="text" id="asal_sekolah" name="asal_sekolah" placeholder="Contoh: SMP Negeri 1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="no_ijazah_skl" class="block text-sm font-medium text-gray-700">2. Nomor Ijazah/SKL</label>
+                        <input type="text" id="no_ijazah_skl" name="no_ijazah_skl" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="tgl_ijazah_skl" class="block text-sm font-medium text-gray-700">3. Tanggal Ijazah/SKL</label>
+                        <input type="date" id="tgl_ijazah_skl" name="tgl_ijazah_skl" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="lama_belajar" class="block text-sm font-medium text-gray-700">4. Lama Belajar</label>
+                        <input type="text" id="lama_belajar" name="lama_belajar" placeholder="... tahun" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="tgl_masuk" class="block text-sm font-medium text-gray-700">5. Tanggal Masuk Sekolah Ini</label>
+                        <input type="date" id="tgl_masuk" name="tgl_masuk" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="diterima_dikelas" class="block text-sm font-medium text-gray-700">Diterima di Kelas</label>
+                        <input type="text" id="diterima_dikelas" name="diterima_dikelas" value="X (Sepuluh)" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="ket_pindahan" class="block text-sm font-medium text-gray-700">Keterangan Pindahan (jika siswa pindahan)</label>
+                        <textarea id="ket_pindahan" name="ket_pindahan" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"></textarea>
+                    </div>
+                </div>
+            </details>
+
+            <!-- BAGIAN E: CATATAN AKADEMIK (NILAI RAPOR) -->
+            <details open>
+                <summary>BAGIAN E: CATATAN AKADEMIK (NILAI RAPOR)</summary>
+                <div class="section-content space-y-8">
+                    
+                    <!-- Nilai Kelas X -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">1. Nilai Rapor Kelas X (Sepuluh)</h4>
+                        <div>
+                            <label for="tapel_x" class="block text-sm font-medium text-gray-700">Tahun Pelajaran</label>
+                            <input type="text" id="tapel_x" name="tapel_x" placeholder="Contoh: 2023/2024" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm sm:text-sm">
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 border">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="p-2 border text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mata Pelajaran</th>
+                                        <th scope="col" class="p-2 border text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kelompok</th>
+                                        <th scope="col" colspan="2" class="p-2 border text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Semester 1</th>
+                                        <th scope="col" colspan="2" class="p-2 border text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Semester 2</th>
+                                        <th scope="col" class="p-2 border text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="p-2 border"></th>
+                                        <th class="p-2 border"></th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Pengetahuan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Keterampilan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Pengetahuan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Keterampilan</th>
+                                        <th class="p-2 border"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-nilai-x" class="bg-white divide-y divide-gray-200">
+                                    <!-- Baris akan ditambahkan oleh JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" onclick="tambahMapel('x')" class="no-print mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
+                            + Tambah Mata Pelajaran
+                        </button>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                            <div>
+                                <label for="sikap_x_1" class="block text-sm font-medium text-gray-700">Catatan Sikap Semester 1</label>
+                                <textarea id="sikap_x_1" name="sikap_x_1" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"></textarea>
+                            </div>
+                            <div>
+                                <label for="sikap_x_2" class="block text-sm font-medium text-gray-700">Catatan Sikap Semester 2</label>
+                                <textarea id="sikap_x_2" name="sikap_x_2" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"></textarea>
+                            </div>
+                            <div>
+                                <label for="kenaikan_x" class="block text-sm font-medium text-gray-700">Kenaikan Kelas</label>
+                                <select id="kenaikan_x" name="kenaikan_x" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                    <option>Naik ke Kelas XI (Sebelas)</option>
+                                    <option>Tidak Naik</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="tgl_kenaikan_x" class="block text-sm font-medium text-gray-700">Tanggal Kenaikan</label>
+                                <input type="date" id="tgl_kenaikan_x" name="tgl_kenaikan_x" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nilai Kelas XI -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">2. Nilai Rapor Kelas XI (Sebelas)</h4>
+                        <div>
+                            <label for="tapel_xi" class="block text-sm font-medium text-gray-700">Tahun Pelajaran</label>
+                            <input type="text" id="tapel_xi" name="tapel_xi" placeholder="Contoh: 2024/2025" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm sm:text-sm">
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 border">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="p-2 border text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mata Pelajaran</th>
+                                        <th scope="col" class="p-2 border text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kelompok</th>
+                                        <th scope="col" colspan="2" class="p-2 border text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Semester 3</th>
+                                        <th scope="col" colspan="2" class="p-2 border text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Semester 4</th>
+                                        <th scope="col" class="p-2 border text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="p-2 border"></th>
+                                        <th class="p-2 border"></th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Pengetahuan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Keterampilan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Pengetahuan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Keterampilan</th>
+                                        <th class="p-2 border"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-nilai-xi" class="bg-white divide-y divide-gray-200">
+                                    <!-- Baris akan ditambahkan oleh JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" onclick="tambahMapel('xi')" class="no-print mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
+                            + Tambah Mata Pelajaran
+                        </button>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                            <div>
+                                <label for="sikap_xi_3" class="block text-sm font-medium text-gray-700">Catatan Sikap Semester 3</label>
+                                <textarea id="sikap_xi_3" name="sikap_xi_3" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"></textarea>
+                            </div>
+                            <div>
+                                <label for="sikap_xi_4" class="block text-sm font-medium text-gray-700">Catatan Sikap Semester 4</label>
+                                <textarea id="sikap_xi_4" name="sikap_xi_4" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"></textarea>
+                            </div>
+                            <div>
+                                <label for="kenaikan_xi" class="block text-sm font-medium text-gray-700">Kenaikan Kelas</label>
+                                <select id="kenaikan_xi" name="kenaikan_xi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                    <option>Naik ke Kelas XII (Dua Belas)</option>
+                                    <option>Tidak Naik</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="tgl_kenaikan_xi" class="block text-sm font-medium text-gray-700">Tanggal Kenaikan</label>
+                                <input type="date" id="tgl_kenaikan_xi" name="tgl_kenaikan_xi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nilai Kelas XII -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">3. Nilai Rapor Kelas XII (Dua Belas)</h4>
+                        <div>
+                            <label for="tapel_xii" class="block text-sm font-medium text-gray-700">Tahun Pelajaran</label>
+                            <input type="text" id="tapel_xii" name="tapel_xii" placeholder="Contoh: 2025/2026" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm sm:text-sm">
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 border">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="p-2 border text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mata Pelajaran</th>
+                                        <th scope="col" class="p-2 border text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kelompok</th>
+                                        <th scope="col" colspan="2" class="p-2 border text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Semester 5</th>
+                                        <th scope="col" colspan="2" class="p-2 border text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Semester 6</th>
+                                        <th scope="col" class="p-2 border text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="p-2 border"></th>
+                                        <th class="p-2 border"></th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Pengetahuan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Keterampilan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Pengetahuan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500">Keterampilan</th>
+                                        <th class="p-2 border"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-nilai-xii" class="bg-white divide-y divide-gray-200">
+                                    <!-- Baris akan ditambahkan oleh JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" onclick="tambahMapel('xii')" class="no-print mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
+                            + Tambah Mata Pelajaran
+                        </button>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                            <div>
+                                <label for="sikap_xii_5" class="block text-sm font-medium text-gray-700">Catatan Sikap Semester 5</label>
+                                <textarea id="sikap_xii_5" name="sikap_xii_5" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"></textarea>
+                            </div>
+                            <div>
+                                <label for="sikap_xii_6" class="block text-sm font-medium text-gray-700">Catatan Sikap Semester 6</label>
+                                <textarea id="sikap_xii_6" name="sikap_xii_6" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- BAGIAN F: CATATAN PRAKERIN -->
+            <details open>
+                <summary>BAGIAN F: CATATAN PRAKTIK KERJA INDUSTRI (PRAKERIN)</summary>
+                <div class="section-content">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 border">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Nama Industri / DUDI</th>
+                                    <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Lokasi/Alamat</th>
+                                    <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Durasi</th>
+                                    <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Kompetensi</th>
+                                    <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Nilai Sikap</th>
+                                    <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Nilai Teknis</th>
+                                    <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Predikat</th>
+                                    <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-prakerin" class="bg-white divide-y divide-gray-200">
+                                <!-- Baris akan ditambahkan oleh JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" onclick="tambahPrakerin()" class="no-print mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
+                        + Tambah Data Prakerin
+                    </button>
+                </div>
+            </details>
+
+            <!-- BAGIAN G: UJIAN DAN SERTIFIKASI -->
+            <details open>
+                <summary>BAGIAN G: UJIAN DAN SERTIFIKASI</summary>
+                <div class="section-content space-y-6">
+                    <!-- Ujian Sekolah -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">1. Ujian Sekolah (US) / Ujian Satuan Pendidikan (USP)</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 border">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Mata Pelajaran yang Diujikan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Nilai Ujian Tulis</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Nilai Ujian Praktik</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Nilai Akhir US/USP</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-us" class="bg-white divide-y divide-gray-200">
+                                    <!-- Baris akan ditambahkan oleh JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" onclick="tambahUjianSekolah()" class="no-print mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
+                            + Tambah Mapel Ujian
+                        </button>
+                    </div>
+
+                    <!-- UKK -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">2. Uji Kompetensi Keahlian (UKK)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="ukk_paket" class="block text-sm font-medium text-gray-700">Paket Keahlian / Klaster</label>
+                                <input type="text" id="ukk_paket" name="ukk_paket" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="ukk_tgl" class="block text-sm font-medium text-gray-700">Tanggal Uji</label>
+                                <input type="date" id="ukk_tgl" name="ukk_tgl" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="ukk_internal" class="block text-sm font-medium text-gray-700">Penguji Internal</label>
+                                <input type="text" id="ukk_internal" name="ukk_internal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="ukk_eksternal" class="block text-sm font-medium text-gray-700">Penguji Eksternal (Industri)</label>
+                                <input type="text" id="ukk_eksternal" name="ukk_eksternal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="ukk_nilai" class="block text-sm font-medium text-gray-700">Nilai UKK</label>
+                                <input type="number" id="ukk_nilai" name="ukk_nilai" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="ukk_predikat" class="block text-sm font-medium text-gray-700">Predikat</label>
+                                <select id="ukk_predikat" name="ukk_predikat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                    <option>Sangat Kompeten</option>
+                                    <option>Kompeten</option>
+                                    <option>Cukup Kompeten</option>
+                                    <option>Belum Kompeten</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="ukk_no_sertifikat" class="block text-sm font-medium text-gray-700">No. Sertifikat Uji Kompetensi</label>
+                                <input type="text" id="ukk_no_sertifikat" name="ukk_no_sertifikat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- BAGIAN H: CATATAN NON-AKADEMIK & PRESTASI -->
+            <details open>
+                <summary>BAGIAN H: CATATAN NON-AKADEMIK & PRESTASI</summary>
+                <div class="section-content space-y-6">
+                    <!-- Ekstrakurikuler -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">1. Ekstrakurikuler</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 border">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Semester</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Jenis Kegiatan Ekstrakurikuler</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Keterangan / Predikat (A/B/C)</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-ekskul" class="bg-white divide-y divide-gray-200">
+                                    <!-- Baris akan ditambahkan oleh JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" onclick="tambahEkskul()" class="no-print mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
+                            + Tambah Kegiatan Ekskul
+                        </button>
+                    </div>
+
+                    <!-- Prestasi -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">2. Prestasi yang Pernah Diraih</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 border">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Tahun</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Jenis Prestasi (Lomba, dll)</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Tingkat</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Keterangan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-prestasi" class="bg-white divide-y divide-gray-200">
+                                    <!-- Baris akan ditambahkan oleh JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" onclick="tambahPrestasi()" class="no-print mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
+                            + Tambah Prestasi
+                        </button>
+                    </div>
+
+                    <!-- Pelanggaran -->
+                    <div class="space-y-4 p-4 border rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-800">3. Catatan Pelanggaran / Pembinaan (jika ada)</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 border">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Tanggal</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Jenis Pelanggaran / Catatan</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Pembinaan / Tindak Lanjut</th>
+                                        <th class="p-2 border text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-pelanggaran" class="bg-white divide-y divide-gray-200">
+                                    <!-- Baris akan ditambahkan oleh JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" onclick="tambahPelanggaran()" class="no-print mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
+                            + Tambah Catatan
+                        </button>
+                    </div>
+                </div>
+            </details>
+
+            <!-- BAGIAN I: KETERANGAN KELUAR / LULUS -->
+            <details open>
+                <summary>BAGIAN I: KETERANGAN KELUAR / LULUS</summary>
+                <div class="section-content">
+                    <div class="space-y-4">
+                        <!-- Pilihan Status -->
+                        <div class="flex items-center space-x-6">
+                            <span class="text-sm font-medium text-gray-700">Status Siswa:</span>
+                            <div class="flex items-center">
+                                <input id="status_lulus" name="status_keluar" type="radio" onchange="toggleStatusKeluar(this.value)" value="lulus" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                                <label for="status_lulus" class="ml-2 block text-sm text-gray-900">A. LULUS</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="status_pindah" name="status_keluar" type="radio" onchange="toggleStatusKeluar(this.value)" value="pindah" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                                <label for="status_pindah" class="ml-2 block text-sm text-gray-900">B. PINDAH SEKOLAH</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="status_keluar" name="status_keluar" type="radio" onchange="toggleStatusKeluar(this.value)" value="keluar" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                                <label for="status_keluar" class="ml-2 block text-sm text-gray-900">C. KELUAR / PUTUS SEKOLAH</label>
+                            </div>
+                        </div>
+
+                        <!-- Konten Lulus (Hidden by default) -->
+                        <div id="content_lulus" class="hidden space-y-4 p-4 border rounded-lg bg-gray-50">
+                            <h4 class="text-base font-semibold text-gray-800">A. LULUS</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="lulus_tgl" class="block text-sm font-medium text-gray-700">Dinyatakan Lulus pada Tanggal</label>
+                                    <input type="date" id="lulus_tgl" name="lulus_tgl" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="lulus_no_ijazah" class="block text-sm font-medium text-gray-700">Nomor Ijazah</label>
+                                    <input type="text" id="lulus_no_ijazah" name="lulus_no_ijazah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="lulus_no_skl" class="block text-sm font-medium text-gray-700">Nomor SKL (Surat Ket. Lulus)</label>
+                                    <input type="text" id="lulus_no_skl" name="lulus_no_skl" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="lulus_catatan" class="block text-sm font-medium text-gray-700">Catatan Setelah Lulus</label>
+                                    <input type="text" id="lulus_catatan" name="lulus_catatan" placeholder="Melanjutkan ke / Bekerja di" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Konten Pindah (Hidden by default) -->
+                        <div id="content_pindah" class="hidden space-y-4 p-4 border rounded-lg bg-gray-50">
+                            <h4 class="text-base font-semibold text-gray-800">B. PINDAH SEKOLAH</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="pindah_tgl" class="block text-sm font-medium text-gray-700">Tanggal Pindah</label>
+                                    <input type="date" id="pindah_tgl" name="pindah_tgl" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="pindah_sekolah" class="block text-sm font-medium text-gray-700">Pindah ke Sekolah</label>
+                                    <input type="text" id="pindah_sekolah" name="pindah_sekolah" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="pindah_alamat" class="block text-sm font-medium text-gray-700">Alamat Sekolah Tujuan</label>
+                                    <input type="text" id="pindah_alamat" name="pindah_alamat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="pindah_sebab" class="block text-sm font-medium text-gray-700">Sebab Pindah</label>
+                                    <input type="text" id="pindah_sebab" name="pindah_sebab" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Konten Keluar (Hidden by default) -->
+                        <div id="content_keluar" class="hidden space-y-4 p-4 border rounded-lg bg-gray-50">
+                            <h4 class="text-base font-semibold text-gray-800">C. KELUAR / PUTUS SEKOLAH</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="keluar_tgl" class="block text-sm font-medium text-gray-700">Tanggal Keluar</label>
+                                    <input type="date" id="keluar_tgl" name="keluar_tgl" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="keluar_sebab" class="block text-sm font-medium text-gray-700">Sebab Keluar</label>
+                                    <input type="text" id="keluar_sebab" name="keluar_sebab" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- BAGIAN J: LEMBAR PENGESAHAN -->
+            <details open>
+                <summary>BAGIAN J: LEMBAR PENGESAHAN</summary>
+                <div class="section-content">
+                    <p class="text-sm text-gray-600 mb-4">(Bagian ini biasanya ditambahkan di akhir setiap lembar cetak atau pada halaman akhir buku)</p>
+                    <div class="flex justify-end">
+                        <div class="text-center w-64">
+                            <p class="mb-20">Mengetahui,</p>
+                            <p class="font-semibold">(Nama Lengkap Kepala Sekolah)</p>
+                            <hr class="border-t border-gray-400 my-1">
+                            <p class="text-sm">NIP/NUPTK</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+        </form>
+    </div>
+
+    <!-- 4. JavaScript untuk Fungsionalitas -->
+    <script>
+        // Fungsi untuk menghapus baris tabel
+        function hapusBaris(button) {
+            button.closest('tr').remove();
+        }
+
+        // Fungsi untuk menambah baris Mata Pelajaran
+        function tambahMapel(kelas) {
+            const tbody = document.getElementById(`tbody-nilai-${kelas}`);
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="p-1 border"><input type="text" class="table-input" name="mapel_${kelas}[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input w-16" name="kelompok_${kelas}[]"></td>
+                <td class="p-1 border"><input type="number" class="table-input w-20" name="p1_${kelas}[]"></td>
+                <td class="p-1 border"><input type="number" class="table-input w-20" name="k1_${kelas}[]"></td>
+                <td class="p-1 border"><input type="number" class="table-input w-20" name="p2_${kelas}[]"></td>
+                <td class="p-1 border"><input type="number" class="table-input w-20" name="k2_${kelas}[]"></td>
+                <td class="p-1 border text-center">
+                    <button type="button" class="no-print text-red-500 hover:text-red-700" onclick="hapusBaris(this)">Hapus</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        // Fungsi untuk menambah baris Prakerin
+        function tambahPrakerin() {
+            const tbody = document.getElementById('tbody-prakerin');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="p-1 border"><input type="text" class="table-input" name="prakerin_nama[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="prakerin_lokasi[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="prakerin_durasi[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="prakerin_kompetensi[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input w-20" name="prakerin_sikap[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input w-20" name="prakerin_teknis[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input w-24" name="prakerin_predikat[]"></td>
+                <td class="p-1 border text-center">
+                    <button type="button" class="no-print text-red-500 hover:text-red-700" onclick="hapusBaris(this)">Hapus</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        // Fungsi untuk menambah baris Ujian Sekolah
+        function tambahUjianSekolah() {
+            const tbody = document.getElementById('tbody-us');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="p-1 border"><input type="text" class="table-input" name="us_mapel[]"></td>
+                <td class="p-1 border"><input type="number" class="table-input w-24" name="us_tulis[]"></td>
+                <td class="p-1 border"><input type="number" class="table-input w-24" name="us_praktik[]"></td>
+                <td class="p-1 border"><input type="number" class="table-input w-24" name="us_akhir[]"></td>
+                <td class="p-1 border text-center">
+                    <button type="button" class="no-print text-red-500 hover:text-red-700" onclick="hapusBaris(this)">Hapus</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        // Fungsi untuk menambah baris Ekskul
+        function tambahEkskul() {
+            const tbody = document.getElementById('tbody-ekskul');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="p-1 border"><input type="text" class="table-input w-24" name="ekskul_semester[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="ekskul_nama[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="ekskul_predikat[]"></td>
+                <td class="p-1 border text-center">
+                    <button type="button" class="no-print text-red-500 hover:text-red-700" onclick="hapusBaris(this)">Hapus</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        // Fungsi untuk menambah baris Prestasi
+        function tambahPrestasi() {
+            const tbody = document.getElementById('tbody-prestasi');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="p-1 border"><input type="text" class="table-input w-24" name="prestasi_tahun[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="prestasi_jenis[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="prestasi_tingkat[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="prestasi_ket[]"></td>
+                <td class="p-1 border text-center">
+                    <button type="button" class="no-print text-red-500 hover:text-red-700" onclick="hapusBaris(this)">Hapus</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        // Fungsi untuk menambah baris Pelanggaran
+        function tambahPelanggaran() {
+            const tbody = document.getElementById('tbody-pelanggaran');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="p-1 border"><input type="date" class="table-input w-36" name="pelanggaran_tgl[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="pelanggaran_jenis[]"></td>
+                <td class="p-1 border"><input type="text" class="table-input" name="pelanggaran_tindak_lanjut[]"></td>
+                <td class="p-1 border text-center">
+                    <button type="button" class="no-print text-red-500 hover:text-red-700" onclick="hapusBaris(this)">Hapus</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        // Fungsi untuk menampilkan/menyembunyikan bagian Lulus/Pindah/Keluar
+        function toggleStatusKeluar(value) {
+            document.getElementById('content_lulus').classList.add('hidden');
+            document.getElementById('content_pindah').classList.add('hidden');
+            document.getElementById('content_keluar').classList.add('hidden');
+
+            if (value === 'lulus') {
+                document.getElementById('content_lulus').classList.remove('hidden');
+            } else if (value === 'pindah') {
+                document.getElementById('content_pindah').classList.remove('hidden');
+            } else if (value === 'keluar') {
+                document.getElementById('content_keluar').classList.remove('hidden');
+            }
+        }
+        
+        // Inisialisasi tabel mapel dengan data default
+        document.addEventListener('DOMContentLoaded', () => {
+            const defaultMapel = [
+                { nama: 'Pendidikan Agama & Budi Pekerti', kelompok: 'A' },
+                { nama: 'PPKn', kelompok: 'A' },
+                { nama: 'Bahasa Indonesia', kelompok: 'A' },
+                { nama: 'Matematika', kelompok: 'A' },
+                { nama: 'Sejarah Indonesia', kelompok: 'A' },
+                { nama: 'Bahasa Inggris', kelompok: 'A' },
+                { nama: 'Seni Budaya', kelompok: 'B' },
+                { nama: 'Pendidikan Jasmani, Olahraga & Kesehatan', kelompok: 'B' },
+                { nama: 'Dasar Bidang Keahlian', kelompok: 'C1' },
+                { nama: 'Dasar Program Keahlian', kelompok: 'C2' },
+            ];
+            
+            ['x', 'xi', 'xii'].forEach(kelas => {
+                 const tbody = document.getElementById(`tbody-nilai-${kelas}`);
+                 
+                 // Sesuaikan mapel untuk kelas XI dan XII
+                 let mapelList = defaultMapel;
+                 if (kelas === 'xi' || kelas === 'xii') {
+                    mapelList = defaultMapel.filter(m => m.kelompok !== 'C1' && m.kelompok !== 'C2');
+                    mapelList.push({ nama: '(Mapel Kompetensi Keahlian 1)', kelompok: 'C3' });
+                    mapelList.push({ nama: '(Mapel Kompetensi Keahlian 2)', kelompok: 'C3' });
+                 }
+
+                 mapelList.forEach(mapel => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="p-1 border"><input type="text" class="table-input" name="mapel_${kelas}[]" value="${mapel.nama}"></td>
+                        <td class="p-1 border"><input type="text" class="table-input w-16" name="kelompok_${kelas}[]" value="${mapel.kelompok}"></td>
+                        <td class="p-1 border"><input type="number" class="table-input w-20" name="p1_${kelas}[]"></td>
+                        <td class="p-1 border"><input type="number" class="table-input w-20" name="k1_${kelas}[]"></td>
+                        <td class="p-1 border"><input type="number" class="table-input w-20" name="p2_${kelas}[]"></td>
+                        <td class="p-1 border"><input type="number" class="table-input w-20" name="k2_${kelas}[]"></td>
+                        <td class="p-1 border text-center">
+                            <button type="button" class="no-print text-red-500 hover:text-red-700" onclick="hapusBaris(this)">Hapus</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                 });
+            });
+
+            // Tambah satu baris kosong di tabel lain
+            tambahPrakerin();
+            tambahUjianSekolah();
+            tambahEkskul();
+            tambahPrestasi();
+            tambahPelanggaran();
+        });
+
+    </script>
+
+<script>
+async function saveToAppsScript() {
+    const form = document.getElementById("bukuIndukForm");
+    const fd = new FormData(form);
+
+    let fotoBase64=null,fotoNama=null,fotoMime=null;
+    const foto=document.querySelector("#foto_siswa")?.files[0];
+    if(foto){
+        fotoNama=foto.name;
+        fotoMime=foto.type;
+        fotoBase64=await new Promise((res,rej)=>{
+            const r=new FileReader();
+            r.onload=()=>res(r.result);
+            r.onerror=rej;
+            r.readAsDataURL(foto);
+        });
+    }
+
+    const json={};
+    fd.forEach((v,k)=>json[k]=v);
+    if(foto){
+        json.foto=fotoBase64.replace(/^data:.+;base64,/,'');
+        json.fotoNama=fotoNama;
+        json.fotoMime=fotoMime;
+    }
+
+    const endpoint = "https://script.google.com/macros/s/AKfycbw_RPAWDGV8DeCOGZaor8Bu1Gii0e7855230-2szqtXCYZX4IP9SwtMjS_t3gu8Ml81/exec";
+
+    const res=await fetch(endpoint,{
+        method:"POST",
+        headers:{ "Content-Type":"application/json"},
+        body:JSON.stringify(json)
+    });
+    const out=await res.json();
+    alert("Status: "+out.status+"\n"+out.message);
+}
+</script>
+<button type="button" onclick="saveToAppsScript()" class="no-print bg-green-600 text-white px-4 py-2 rounded m-4">
+Simpan ke Google Drive
+</button>
+
+</body>
+</html>
