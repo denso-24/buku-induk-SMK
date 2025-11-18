@@ -1076,10 +1076,13 @@ async function saveToAppsScript() {
 
     const endpoint = "https://script.google.com/macros/s/AKfycbw_RPAWDGV8DeCOGZaor8Bu1Gii0e7855230-2szqtXCYZX4IP9SwtMjS_t3gu8Ml81/exec";
 
-    const res=await fetch(endpoint,{
-        method:"POST",
-        headers:{ "Content-Type":"application/json"},
-        body:JSON.stringify(json)
+const res = await fetch(endpoint, {
+  method: "POST",
+  headers: {
+    "Content-Type": "text/plain;charset=utf-8"
+  },
+  body: JSON.stringify(json),
+  redirect: "follow"
     });
     const out=await res.json();
     alert("Status: "+out.status+"\n"+out.message);
